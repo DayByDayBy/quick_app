@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useState } from 'react';
@@ -29,8 +30,16 @@ function HomeScreen() {
     }
   };
 
+  const resetValues = () => {
+    setName('');
+    setAge(undefined);
+
+     
+  }
+   
+
   return (
-    <View >
+    <KeyboardAwareScrollView >
       <TextInput 
       style={{ 
         backgroundColor:'white',
@@ -46,6 +55,9 @@ function HomeScreen() {
       accessibilityLabel= "enter someone's name and we will guess their age"
       keyboardType='ascii-capable'
       autoComplete='given-name'
+      onFocus={resetValues}
+      clearTextOnFocus
+
 
       />
       <Pressable
@@ -65,7 +77,7 @@ function HomeScreen() {
       )}
       {!!age && <Text style={{fontSize: FONT_SIZE, margin: SPACING}}>{`best guess? you are about ${age}`}</Text>}
       
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
