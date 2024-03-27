@@ -1,14 +1,45 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useState } from 'react';
+
+const SPACING = 24;
+const FONT_SIZE = 24; 
 
 
 function HomeScreen() {
+  const [name, setName] = useState('');
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
+    <View >
+      <TextInput 
+      style={{ 
+        backgroundColor:'white',
+        padding: SPACING,
+        margin: SPACING,
+        borderWidth: 1,
+        fontSize: FONT_SIZE,
+
+    }}
+      value={name}
+      onChangeText={setName}
+      placeholder='Enter name'
+      accessibilityLabel= "enter someone's name and we will guess their age"
+      keyboardType='ascii-capable'
+      autoComplete='given-name'
+
+      />
+      <Pressable style={{
+        backgroundColor: 'blue',
+        padding: SPACING,
+        marginHorizontal: SPACING,
+        borderRadius: 15,
+        alignItems: 'center',
+      }}>
+        <Text style={{color: 'white', fontSize: FONT_SIZE}}>submit </Text>
+      </Pressable>
+      
     </View>
   );
 }
