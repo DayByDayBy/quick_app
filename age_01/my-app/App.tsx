@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -11,6 +11,24 @@ const FONT_SIZE = 24;
 
 function HomeScreen() {
   const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [age, setAge] = useState(undefined);
+
+  const handleSubmit = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `https://api.agify.io?name=${name}`,
+      );
+      const json = await response.json();
+      setAge(json.age);
+    } catch (error) {
+      console.error(error);
+    } finally{
+      setIsLoading(false)
+    }
+  };
+
   return (
     <View >
       <TextInput 
@@ -30,7 +48,10 @@ function HomeScreen() {
       autoComplete='given-name'
 
       />
-      <Pressable style={{
+      <Pressable
+        onPress= {handleSubmit}
+        accessibilityRole='button'
+        style={{
         backgroundColor: 'blue',
         padding: SPACING,
         marginHorizontal: SPACING,
@@ -38,7 +59,11 @@ function HomeScreen() {
         alignItems: 'center',
       }}>
         <Text style={{color: 'white', fontSize: FONT_SIZE}}>submit </Text>
-      </Pressable>
+      </Pressable> 
+      {isLoading && (
+        <ActivityIndicator size="large" style={{ margin: SPACING }} />
+      )}
+      {!!age && <Text style={{fontSize: FONT_SIZE, margin: SPACING}}>{`best guess? you are about ${age}`}</Text>}
       
     </View>
   );
