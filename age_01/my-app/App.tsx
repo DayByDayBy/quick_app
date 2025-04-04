@@ -9,7 +9,6 @@ import { useState } from 'react';
 const SPACING = 24;
 const FONT_SIZE = 24; 
 
-
 function HomeScreen() {
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
